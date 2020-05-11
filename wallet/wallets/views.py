@@ -10,6 +10,7 @@ from .models import Wallet
 # Serializers
 from .serializers import WalletModelSerializer
 from .serializers import WalletIncomeSerializer
+from .serializers import WalletWithdrawSerializer
 
 
 class WalletViewSet(mixins.RetrieveModelMixin,
@@ -26,6 +27,8 @@ class WalletViewSet(mixins.RetrieveModelMixin,
 		"""Return serializer based on action."""
 		if self.action == 'income':
 			return WalletIncomeSerializer
+		elif self.action == 'withdraw':
+			return WalletWithdrawSerializer
 
 		return WalletModelSerializer
 
@@ -43,4 +46,20 @@ class WalletViewSet(mixins.RetrieveModelMixin,
 		wallet = serializer.save()
 		data = WalletModelSerializer(wallet).data
 		
+		return Response(data, status=status.HTTP_200_OK)
+
+	@action(detail=True, methods=['post'])
+	def withdraw(self, request, pk=None, *args, **kwargs):
+		wallet = self.get_object()
+		serializer_class = self.get_serializer_class()
+		amount = request.data.get('amount')
+		serializer = serializer_class(
+			wallet,
+			data={'amount': amount},
+			partial=True
+		)
+		serializer.is_valid(raise_exception=True)
+		wallet = serializer.save()
+		data = WalletModelSerializer(wallet).data
+
 		return Response(data, status=status.HTTP_200_OK)

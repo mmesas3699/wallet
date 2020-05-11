@@ -56,3 +56,22 @@ class WalletTests(APITestCase):
         data = {'amount': 0}
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_withdraw(self):
+        """Checks if withdraw process are executed correctly."""
+        url = "/api/wallets/{}/withdraw/".format(self.wallet.slug_name)
+        data = {'amount': 10000}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['balance'], 0)
+
+    def test_withdraw_insufficient_balance(self):
+        """Returns error if the amount to be withdrawn is
+        greater than the account balance."""
+
+        url = '/api/wallets/{}/withdraw/'.format(self.wallet.slug_name)
+        data = {'amount': 500000}
+        response = self.client.post(url, data, format='json')
+        # import pdb; pdb.set_trace()
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['detail'], 'Saldo insuficiente')

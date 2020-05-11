@@ -31,3 +31,24 @@ class WalletIncomeSerializer(serializers.ModelSerializer):
 		wallet.income(data['amount'])
 
 		return wallet
+
+
+class WalletWithdrawSerializer(serializers.ModelSerializer):
+	"""For withdraw from wallets."""
+
+	amount = serializers.IntegerField(min_value=1)
+
+	class Meta:
+		model = Wallet
+		fields = ['amount',]
+
+	def update(self, instance, data):
+		"""If the amount is greater than balance return error."""
+		wallet = instance
+		try:
+			wallet.withdraw(data['amount'])
+		except Exception as error:
+			raise error
+
+		return wallet
+

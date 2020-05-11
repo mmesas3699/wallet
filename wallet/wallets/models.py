@@ -3,6 +3,8 @@
 # Django
 from django.db import models
 
+from rest_framework.exceptions import ParseError
+
 
 class Wallet(models.Model):
 	name = models.CharField(max_length=60, null=False, blank=False)
@@ -26,7 +28,7 @@ class Wallet(models.Model):
 		"""Return an error if 'value' is bigger than the balance."""
 		
 		if value > self.balance:
-			raise Exception("Saldo insuficiente")
+			raise ParseError(detail='Saldo insuficiente')
 
 		self.balance -= value
 		self.save()  # save instance
