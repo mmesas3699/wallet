@@ -5,6 +5,7 @@ from wallet.users.views import UserViewSet
 from wallet.wallets.views import WalletViewSet
 from wallet.clients.views import ClientViewSet
 from wallet.expenses.views import ExpenseViewSet
+from wallet.expenses.views import GroupViewSet
 
 
 if settings.DEBUG:
@@ -16,6 +17,7 @@ router.register("users", UserViewSet)
 router.register("wallets", WalletViewSet)
 router.register("clients", ClientViewSet)
 router.register("expenses", ExpenseViewSet)
+router.register("groups", GroupViewSet)
 
 app_name = "api"
 urlpatterns = router.urls

@@ -9,6 +9,9 @@ class Group(models.Model):
 	slug_name = models.SlugField(unique=True)
 	detail = models.CharField(max_length=300)
 
+	def get_expenses(self):
+		return Expense.objects.filter(groups=self).all()
+
 	def __str__(self):
 		return f"{self.slug_name}"
 
