@@ -73,6 +73,7 @@ LOCAL_APPS = [
     "wallet.wallets.apps.WalletsConfig",
     "wallet.clients.apps.ClientsConfig",
     "wallet.expenses.apps.ExpensesConfig",
+    "wallet.transfers.apps.TransfersConfig"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
