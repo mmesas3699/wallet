@@ -16,6 +16,7 @@ from .serializers import WalletWithdrawSerializer
 class WalletViewSet(mixins.RetrieveModelMixin,
 					mixins.ListModelMixin,
 					mixins.UpdateModelMixin,
+					mixins.CreateModelMixin,
 					viewsets.GenericViewSet):
 	"""Wallet viewset"""
 
